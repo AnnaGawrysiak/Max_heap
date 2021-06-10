@@ -1,13 +1,11 @@
 #pragma once
 #include <vector>
-#include <memory>
 #include "Node.h"
 
 class Heap
 {
 public:
 	std::shared_ptr<Node> root;
-	std::shared_ptr<Node> create_new_node(int value);
 	std::vector<int> vector_representation;
 	// current size of a heap
 	int size;
@@ -18,10 +16,11 @@ public:
 
 public:
 	Heap();
-	void create_heap(std::vector<int> numbers);
-	void insert_vec(int value);
+	void insert(int value);
 	bool is_empty();
 	void remove();
-	int show_min() const;
+	void pop();
+	void heapify_down(int index);
+
 };
 

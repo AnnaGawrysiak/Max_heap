@@ -10,12 +10,23 @@ int main()
 
     for (const auto item : myvector)
     {
-        max_heap.insert_vec(item);
+        max_heap.insert(item);
     }
 
     std::vector<int> myvector2 = max_heap.vector_representation;
 
     for (const auto item : myvector2)
+    {
+        std::cout << item << " ";
+    }
+
+    std::cout << std::endl;
+
+    max_heap.pop();
+
+    std::vector<int> myvector3 = max_heap.vector_representation;
+
+    for (const auto item : myvector3)
     {
         std::cout << item << " ";
     }

@@ -1,13 +1,6 @@
 #include "Heap.h"
-#include <memory>
 #include <utility>
 
-std::shared_ptr<Node> Heap::create_new_node(int value)
-{
-	std::shared_ptr<Node> ptr_node = std::make_shared<Node>(Node(value));
-
-	return ptr_node;
-}
 
 int Heap::find_a_parent(int index)
 {
@@ -23,23 +16,7 @@ int Heap::find_right_child(int index)
 {
 	return (2*index)+2;
 }
-
-//void Heap::insert(int value)
-//{
-//	std::shared_ptr<Node> curr = root;
-//
-//	if(!curr->child_left)
-//	{
-//		create_new_node(value);
-//	}
-//	else if(!curr->child_right)
-//	{
-//		create_new_node(value);
-//	}
-//
-//}
-
-void Heap::insert_vec(int value)
+void Heap::insert(int value)
 {
 	size++;
 	//Insert the new key at the end
@@ -54,24 +31,6 @@ void Heap::insert_vec(int value)
 	}
 }
 
-//void Heap::create_heap(std::vector<int> numbers)
-//{
-//	if (numbers.empty())
-//		return;
-//
-//	root = create_new_node(numbers.at(0));
-//
-//	for (const auto& item : numbers)
-//	{
-//		if (root->data < item)
-//		{
-//			search_new_place(root->data);
-//			root = create_new_node(item);
-//		}
-//	}
-//
-//}
-
 bool Heap::is_empty()
 {
 	if (size == 0)
@@ -85,10 +44,53 @@ Heap::Heap()
 	size = 0;
 }
 
-int Heap::show_min() const
+// Function to remove an element with the highest priority (present at the root)
+void Heap::pop()
 {
-	if (root)
-		return root->data;
+	if (size == 0)
+		return;
+	else if (size == 1)
+	{
+		vector_representation.pop_back();
+		size--;
+		return;
+	}
 	else
-		return -1;
+	{ 
+		// replace the root of the heap with the last element
+		// of the vector
+		vector_representation[0] = vector_representation.back();
+		vector_representation.pop_back();
+		size--;
+		// Maintain heap shape. call heapify-down on the root node
+		heapify_down(0);
+
+		return;
+	}
+}
+
+void Heap::heapify_down(int index)
+{
+	int left_child = find_left_child(index);
+	int right_child = find_right_child(index);
+	int largest = index;
+
+	// compare `vector_representation[index]` with its left and right child
+		// and find the largest value
+	if (left_child < size)
+		if(vector_representation.at(left_child) > vector_representation.at(index))
+			largest = left_child;
+
+	if (right_child < size)
+		if(vector_representation.at(right_child) > vector_representation.at(index))
+			largest = right_child;
+
+	// swap with a child having greater value and
+	// call heapify-down on the child
+	if (largest != index)
+	{
+		std::swap(vector_representation[index], vector_representation[largest]);
+		heapify_down(largest);
+	}
+
 }
