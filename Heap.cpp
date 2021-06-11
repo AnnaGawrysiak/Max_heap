@@ -1,5 +1,7 @@
 #include "Heap.h"
 #include <utility>
+#include <iostream>
+#include <stdexcept>
 
 
 int Heap::find_a_parent(int index)
@@ -15,6 +17,10 @@ int Heap::find_left_child(int index)
 int Heap::find_right_child(int index)
 {
 	return (2*index)+2;
+}
+std::vector<int> Heap::get_vector_representation() const
+{
+	return vector_representation;
 }
 void Heap::insert(int value)
 {
@@ -44,6 +50,26 @@ Heap::Heap()
 	size = 0;
 }
 
+void Heap::remove()
+{
+}
+
+int Heap::top()
+{
+	try
+	{
+		if (size == 0)
+			throw std::out_of_range(" Index is out of range.");
+
+		return vector_representation.at(0);
+
+	}
+	catch(const std::out_of_range& oor)
+	{
+		std::cout << std::endl << "Exception identification: " << oor.what();
+	}
+}
+
 // Function to remove an element with the highest priority (present at the root)
 void Heap::pop()
 {
@@ -59,7 +85,7 @@ void Heap::pop()
 	{ 
 		// replace the root of the heap with the last element
 		// of the vector
-		vector_representation[0] = vector_representation.back();
+		vector_representation[0] = std::move(vector_representation.back());
 		vector_representation.pop_back();
 		size--;
 		// Maintain heap shape. call heapify-down on the root node
