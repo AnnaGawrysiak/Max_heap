@@ -4,6 +4,8 @@
 #include <iostream>
 #include <stdexcept>
 #include <cmath>
+#include <queue>
+#include <map>
 
 	std::shared_ptr<Node> Heap::create_new_node(int value)
 	{
@@ -47,29 +49,40 @@
 			if (i == (binary.size() - 1) && binary.at(i) == 1)
 			{
 				curr->child_right = create_new_node(value);
+				if (curr->data < curr->child_right->data)
+					std::swap(curr->data, curr->child_right->data);
 				std::cout << " I go right and create a new node" << std::endl;
+				//heapify_up(curr->child_right);
 				size++;
 				return;
 			}
 			else if (i == (binary.size() - 1) && binary.at(i) == 0)
 			{
 				curr->child_left = create_new_node(value);
+				if (curr->data < curr->child_left->data)
+					std::swap(curr->data, curr->child_left->data);
 				std::cout << "I go left and create a new node" << std::endl;
+				//heapify_up(curr->child_left);
 				size++;
 				return;
 			}
 
 			if (binary.at(i) == 1)
 			{
+				if (curr->data < value)
+					std::swap(curr->data, value);
 				curr = curr->child_right;
 				std::cout << " I go right ";
 			}
 			else
 			{
+				if (curr->data < value)
+					std::swap(curr->data, value);
 				curr = curr->child_left;
 				std::cout << "I go left ";
 			}
 		}
+
 	}
 
 	Heap::Heap()
@@ -151,25 +164,51 @@
 	//	}
 	//
 	//}
-	//
-	//void Heap::print_heap()
-	//{
-	//	int level = 0;
-	//	int nr_of_items_on_every_level = pow(2, level);
-	//	int nr_of_item = 0;
-	//
-	//	for (int i = 0; i < size; i++)
-	//	{
-	//		std::cout << heap.at(i) << " ";
-	//		nr_of_item++;
-	//
-	//		if( nr_of_item >= nr_of_items_on_every_level)
-	//		{
-	//			std::cout << std::endl;
-	//			level++;
-	//			nr_of_items_on_every_level = pow(2, level);
-	//			nr_of_item = 0;
-	//		}
-	//
-	//	}
+
+
+
+void Heap::print_heap()
+{	
+	if (root == nullptr)
+		return;
+
+	std::shared_ptr<Node> source = root;
+	std::queue<std::shared_ptr<Node> > myqueue;
+	myqueue.push(source);
+	// whenever an item touches a queue we mark it as seen
+	std::map<std::shared_ptr<Node>, bool> discovered;
+	discovered[source] = true;
+	int levels = 0;
+
+	while (!myqueue.empty())
+	{
+		// calculate the total number of nodes at the current level
+		int size = myqueue.size();
+
+		while(size--)
+		{
+			std::shared_ptr<Node> curr = myqueue.front();
+			std::cout << curr->data << " ";
+			myqueue.pop();
+
+			if (curr->child_left != nullptr && discovered[curr->child_left] == false)
+			{
+				// mark it as discovered and enqueue it
+				discovered[curr->child_left] = true;
+				myqueue.push(curr->child_left);
+			}
+
+			if (curr->child_right != nullptr && discovered[curr->child_right] == false)
+			{
+				discovered[curr->child_right] = true;
+				myqueue.push(curr->child_right);
+			}
+		}
+		std::cout << std::endl;
+		levels++;
+	}
+
+
+	
+}
 	

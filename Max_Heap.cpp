@@ -6,7 +6,7 @@
 
 int main()
 {
-    //std::vector<int> myvector = {9, 8, 7, 1, 11, 12, 4, 16, 67, 3, 13, 25};
+    std::vector<int> myvector = {9, 8, 7, 1, 11, 12, 4, 16, 67, 3, 13, 25};
 
     Heap max_heap;
     max_heap.insert(1);
@@ -23,11 +23,12 @@ int main()
     max_heap.insert(12);
     max_heap.insert(13);
     
-   // for (const auto item : myvector)
-    //{
-    //    max_heap.insert(item);
-   // }
-    
+    for (const auto item : myvector)
+    {
+        max_heap.insert(item);
+    }
+    max_heap.print_heap();
+
    /* max_heap.print_heap();
     std::cout << std::endl;
     std::cout << "Root: " << max_heap.top() << std::endl;

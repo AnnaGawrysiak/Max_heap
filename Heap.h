@@ -19,7 +19,7 @@ public:
 	//void pop();
 	//int top();
 	//void heapify_down(int index);
-	//void print_heap();
-
+	void print_heap();
+	void heapify_up(std::shared_ptr<Node> source);
 };
 
