@@ -21,32 +21,12 @@ int main()
     max_heap.insert(10);
     max_heap.insert(11);
     max_heap.insert(12);
-    /*max_heap.root = std::make_shared<Node>(Node(1));
-
-    max_heap.root->child_left = std::make_shared<Node>(Node(2));
-    max_heap.root->child_right = std::make_shared<Node>(Node(3));
-
-    max_heap.root->child_left->child_left = std::make_shared<Node>(Node(4));
-    max_heap.root->child_left->child_right = std::make_shared<Node>(Node(5));
-    max_heap.root->child_right->child_left = std::make_shared<Node>(Node(6));
-    max_heap.root->child_right->child_right = std::make_shared<Node>(Node(7));
-
-    max_heap.root->child_left->child_left->child_left = std::make_shared<Node>(Node(8));
-    max_heap.root->child_left->child_left->child_right = std::make_shared<Node>(Node(9));
-    max_heap.root->child_left->child_right->child_left = std::make_shared<Node>(Node(10));
-    max_heap.root->child_left->child_right->child_right = std::make_shared<Node>(Node(11));
-    max_heap.root->child_right->child_left->child_left = std::make_shared<Node>(Node(12));*/
-
-    max_heap.size = 12;
     max_heap.insert(13);
-    std::cout << max_heap.root->child_right->child_left->child_left->data << std::endl;
-    std::cout << "size: " << max_heap.size << std::endl;
-    //std::cout << "Insert node value: " << max_heap.root->child_right->child_left->child_right->data << std::endl;
-
-    //for (const auto item : myvector)
+    
+   // for (const auto item : myvector)
     //{
-      //  max_heap.insert(item);
-    //}
+    //    max_heap.insert(item);
+   // }
     
    /* max_heap.print_heap();
     std::cout << std::endl;

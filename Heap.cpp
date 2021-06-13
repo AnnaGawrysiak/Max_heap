@@ -30,12 +30,12 @@
 			level++;
 			nr_of_higher_level_nodes += pow(2, level);
 		}
-		// 13 to 1101
+		
 		std::vector<int> binary;
-		while (value != 0)
+		while (first_empty_space_index != 0)
 		{
-			binary.push_back(value % 2);
-			value = value / 2;
+			binary.push_back(first_empty_space_index % 2);
+			first_empty_space_index = first_empty_space_index / 2;
 		}
 
 		std::reverse(binary.begin(), binary.end());
