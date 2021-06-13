@@ -4,23 +4,22 @@
 
 class Heap
 {
-private:
-	std::vector<int> vector_representation;
+public:
+	std::shared_ptr<Node> root;
+	std::shared_ptr<Node> left_child;
+	std::shared_ptr<Node> right_child;
+	std::shared_ptr<Node> create_new_node(int value);
 	// current size of a heap
 	int size;
-	int find_a_parent(int index);
-	int find_left_child(int index);
-	int find_right_child(int index);
 
 public:
 	Heap();
-	std::vector<int> get_vector_representation() const;
 	void insert(int value);
 	bool is_empty();
-	void remove();
-	void pop();
-	int top();
-	void heapify_down(int index);
+	//void pop();
+	//int top();
+	//void heapify_down(int index);
+	//void print_heap();
 
 };
 
