@@ -6,12 +6,42 @@
 #include <cmath>
 #include <queue>
 #include <map>
+#include <tuple>
 
 	std::shared_ptr<Node> Heap::create_new_node(int value)
 	{
 		std::shared_ptr<Node> ptr_node = std::make_shared<Node>(Node(value));
 
 		return ptr_node;
+	}
+
+	std::tuple<int, int> Heap::find_first_empty_space_index_and_its_level()
+	{
+		int first_empty_space_index = size + 1;
+		int level = 0;
+		int nr_of_higher_level_nodes = 1;
+		while (nr_of_higher_level_nodes < first_empty_space_index)
+		{
+			level++;
+			nr_of_higher_level_nodes += pow(2, level);
+		}
+
+		return std::make_tuple(first_empty_space_index, level);
+	}
+
+	std::vector<int> Heap::to_binary(int number)
+	{
+		std::vector<int> binary;
+
+		while(number != 0)
+		{
+			binary.push_back(number % 2);
+			number= number / 2;
+		}
+
+		std::reverse(binary.begin(), binary.end());
+
+		return binary;
 	}
 
 	void Heap::insert(int value)
@@ -23,24 +53,10 @@
 			size++;
 			return;
 		}
-		 
-		int first_empty_space_index = size + 1;
-		int level = 0;
-		int nr_of_higher_level_nodes = 1;
-		while (nr_of_higher_level_nodes < first_empty_space_index)
-		{
-			level++;
-			nr_of_higher_level_nodes += pow(2, level);
-		}
 		
-		std::vector<int> binary;
-		while (first_empty_space_index != 0)
-		{
-			binary.push_back(first_empty_space_index % 2);
-			first_empty_space_index = first_empty_space_index / 2;
-		}
+		auto [first_empty_space_index, level] = find_first_empty_space_index_and_its_level();
 
-		std::reverse(binary.begin(), binary.end());
+		std::vector<int> binary = to_binary(first_empty_space_index);
 
 		std::shared_ptr<Node> curr = root;
 
@@ -51,8 +67,7 @@
 				curr->child_right = create_new_node(value);
 				if (curr->data < curr->child_right->data)
 					std::swap(curr->data, curr->child_right->data);
-				std::cout << " I go right and create a new node" << std::endl;
-				//heapify_up(curr->child_right);
+				//std::cout << " I go right and create a new node" << std::endl;
 				size++;
 				return;
 			}
@@ -61,8 +76,8 @@
 				curr->child_left = create_new_node(value);
 				if (curr->data < curr->child_left->data)
 					std::swap(curr->data, curr->child_left->data);
-				std::cout << "I go left and create a new node" << std::endl;
-				//heapify_up(curr->child_left);
+				//std::cout << "I go left and create a new node" << std::endl;
+		
 				size++;
 				return;
 			}
@@ -72,14 +87,14 @@
 				if (curr->data < value)
 					std::swap(curr->data, value);
 				curr = curr->child_right;
-				std::cout << " I go right ";
+				//std::cout << " I go right ";
 			}
 			else
 			{
 				if (curr->data < value)
 					std::swap(curr->data, value);
 				curr = curr->child_left;
-				std::cout << "I go left ";
+				//std::cout << "I go left ";
 			}
 		}
 
@@ -97,48 +112,48 @@
 
 		return false;
 	}
-	//
-	//int Heap::top()
-	//{
-	//	try
-	//	{
-	//		if (size == 0)
-	//			throw std::out_of_range(" Index is out of range.");
-	//
-	//		return heap.at(0);
-	//
-	//	}
-	//	catch(const std::out_of_range& oor)
-	//	{
-	//		std::cout << std::endl << "Exception identification: " << oor.what();
-	//	}
-	//}
-	//
+	
+	int Heap::top()
+	{
+		try
+		{
+			if (size == 0)
+				throw std::out_of_range(" Index is out of range.");
+	
+			return root->data;
+	
+		}
+		catch(const std::out_of_range& oor)
+		{
+			std::cout << std::endl << "Exception identification: " << oor.what();
+		}
+	}
+	
 	//// Function to remove an element with the highest priority (present at the root)
-	//void Heap::pop()
-	//{
-	//	if (size == 0)
-	//		return;
-	//	else if (size == 1)
-	//	{
-	//		heap.pop_back();
-	//		size--;
-	//		return;
-	//	}
-	//	else
-	//	{ 
-	//		// replace the root of the heap with the last element
-	//		// of the vector
-	//		heap[0] = std::move(heap.back());
-	//		heap.pop_back();
-	//		size--;
-	//		// Maintain heap shape. call heapify-down on the root node
-	//		heapify_down(0);
-	//
-	//		return;
-	//	}
-	//}
-	//
+	void Heap::pop()
+	{
+		if (size == 0)
+			return;
+		else if (size == 1)
+		{
+			root = nullptr;
+			size--;
+			return;
+		}
+		else
+		{ 
+			// replace the root of the heap with the last element
+			// of the vector
+			//root->data = std::move(heap.back());
+			//heap.pop_back();
+			//size--;
+			// Maintain heap shape. call heapify-down on the root node
+			//heapify_down(0);
+	
+			return;
+		}
+	}
+	
 	//void Heap::heapify_down(int index)
 	//{
 	//	int left_child = find_left_child(index);

@@ -29,17 +29,12 @@ int main()
     }
     max_heap.print_heap();
 
-   /* max_heap.print_heap();
-    std::cout << std::endl;
-    std::cout << "Root: " << max_heap.top() << std::endl;
+    std::cout << "top:" << max_heap.top() << std::endl;
 
     max_heap.pop();
     std::cout << std::endl << std::endl;
 
     max_heap.print_heap();
-
-    std::cout << std::endl;
-    std::cout << "Root: " << max_heap.top() << std::endl;*/
 
     return 0;
 }
