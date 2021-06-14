@@ -29,6 +29,19 @@
 		return std::make_tuple(first_empty_space_index, level);
 	}
 
+	int Heap::find_last_node_level()
+	{
+		int level = 0;
+		int nr_of_higher_level_nodes = 1;
+		while (nr_of_higher_level_nodes < size)
+		{
+			level++;
+			nr_of_higher_level_nodes += pow(2, level);
+		}
+
+		return level;
+	}
+
 	std::vector<int> Heap::to_binary(int number)
 	{
 		std::vector<int> binary;
@@ -142,45 +155,61 @@
 		}
 		else
 		{ 
-			// replace the root of the heap with the last element
-			// of the vector
-			//root->data = std::move(heap.back());
-			//heap.pop_back();
-			//size--;
+			int last_node_index = size;
+			int level = find_last_node_level();
+
+			std::vector<int> binary = to_binary(size);
+			std::vector<std::shared_ptr<Node>> path;
+
+			std::shared_ptr<Node> curr = root;
+			path.push_back(curr);
+
+			for (int i = (binary.size() - level); i < binary.size(); i++)
+			{
+				if (i == (binary.size() - 1) && binary.at(i) == 1)
+				{
+					root->data = std::move(curr->child_right->data);
+					curr->child_right = nullptr;
+					size--;
+					heapify_down(path);
+					return;
+				}
+				else if (i == (binary.size() - 1) && binary.at(i) == 0)
+				{
+					root->data = std::move(curr->child_left->data);
+					curr->child_left = nullptr;
+					size--;
+					heapify_down(path);
+					return;
+				}
+
+				if (binary.at(i) == 1)
+				{
+					curr = curr->child_right;
+					path.push_back(curr);
+				}
+				else
+				{
+					curr = curr->child_left;
+					path.push_back(curr);
+				}
+			}
 			// Maintain heap shape. call heapify-down on the root node
-			//heapify_down(0);
-	
+			//heapify_down(path);
+
 			return;
 		}
 	}
 	
-	//void Heap::heapify_down(int index)
-	//{
-	//	int left_child = find_left_child(index);
-	//	int right_child = find_right_child(index);
-	//	int largest = index;
-	//
-	//	// compare `heap[index]` with its left and right child
-	//		// and find the largest value
-	//	if (left_child < size)
-	//		if(heap.at(left_child) > heap.at(index))
-	//			largest = left_child;
-	//
-	//	if (right_child < size)
-	//		if(heap.at(right_child) > heap.at(index))
-	//			largest = right_child;
-	//
-	//	// swap with a child having greater value and
-	//	// call heapify-down on the child
-	//	if (largest != index)
-	//	{
-	//		std::swap(heap[index], heap[largest]);
-	//		heapify_down(largest);
-	//	}
-	//
-	//}
-
-
+	void Heap::heapify_down(std::vector<std::shared_ptr<Node>> path)
+	{
+		for (int i = 0; i < path.size() -1; i++)
+		{
+			if (path.at(i)->data < path.at(i + 1)->data)
+				std::swap(path.at(i)->data, path.at(i + 1)->data);
+			
+		}
+	}
 
 void Heap::print_heap()
 {	
