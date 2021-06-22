@@ -1,27 +1,23 @@
-#include "Heap.h"
+﻿#include "Heap.h"
 #include <utility>
 #include <iostream>
-#include <stdexcept>
 
 
-int Heap::find_a_parent(int index)
+int Heap::find_a_parent_index(int index)
 {
-	return static_cast<int>((index-1)/2);
+	return (index - 1) / 2;
 }
 
-int Heap::find_left_child(int index)
+int Heap::find_left_child_index(int index)
 {
-	return (2*index)+1;
+	return (2 * index) + 1;
 }
 
-int Heap::find_right_child(int index)
+int Heap::find_right_child_index(int index)
 {
-	return (2*index)+2;
+	return (2 * index) + 2;
 }
-std::vector<int> Heap::get_vector_representation() const
-{
-	return vector_representation;
-}
+
 void Heap::insert(int value)
 {
 	size++;
@@ -29,25 +25,28 @@ void Heap::insert(int value)
 	int i = size - 1;
 	vector_representation.push_back(value);
 
+	int& child_data = vector_representation.at(i);
+	int& parent_data = vector_representation.at(find_a_parent_index(i)); // jesli jest ciezka funkcja przypisuj do zmiennej
+
 	// Fix the min heap property. Move up until value >= parent or root
-	while (i != 0 && vector_representation.at(i) >= vector_representation.at(find_a_parent(i)))
+	while (i != 0 && child_data >= parent_data)
 	{
-		std::swap(vector_representation.at(i), vector_representation.at(find_a_parent(i)));
-		i = find_a_parent(i);
+		if (child_data >= parent_data)
+			std::swap(child_data, parent_data); 
+
+		i = find_a_parent_index(i);
+		child_data = vector_representation.at(i);
+		parent_data = vector_representation.at(find_a_parent_index(i));
 	}
 }
 
 bool Heap::is_empty()
 {
-	if (size == 0)
-		return true;
-
-	return false;
+	return (size == 0 ? true : false);
 }
 
-Heap::Heap()
+Heap::Heap() : size{ 0 }
 {
-	size = 0;
 }
 
 void Heap::remove()
@@ -56,21 +55,9 @@ void Heap::remove()
 
 int Heap::top()
 {
-	try
-	{
-		if (size == 0)
-			throw std::out_of_range(" Index is out of range.");
-
-		return vector_representation.at(0);
-
-	}
-	catch(const std::out_of_range& oor)
-	{
-		std::cout << std::endl << "Exception identification: " << oor.what();
-	}
+	return vector_representation.at(0);
 }
 
-// Function to remove an element with the highest priority (present at the root)
 void Heap::pop()
 {
 	if (size == 0)
@@ -82,7 +69,7 @@ void Heap::pop()
 		return;
 	}
 	else
-	{ 
+	{
 		// replace the root of the heap with the last element
 		// of the vector
 		vector_representation[0] = std::move(vector_representation.back());
@@ -97,18 +84,18 @@ void Heap::pop()
 
 void Heap::heapify_down(int index)
 {
-	int left_child = find_left_child(index);
-	int right_child = find_right_child(index);
+	int left_child = find_left_child_index(index);
+	int right_child = find_right_child_index(index);
 	int largest = index;
 
 	// compare `vector_representation[index]` with its left and right child
 		// and find the largest value
 	if (left_child < size)
-		if(vector_representation.at(left_child) > vector_representation.at(index))
+		if (vector_representation.at(left_child) > vector_representation.at(index))
 			largest = left_child;
 
 	if (right_child < size)
-		if(vector_representation.at(right_child) > vector_representation.at(index))
+		if (vector_representation.at(right_child) > vector_representation.at(index))
 			largest = right_child;
 
 	// swap with a child having greater value and
@@ -119,4 +106,12 @@ void Heap::heapify_down(int index)
 		heapify_down(largest);
 	}
 
+}
+
+void Heap::print()
+{
+	for (const auto item : vector_representation)
+	{
+		std::cout << item << " ";
+	}
 }

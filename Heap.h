@@ -1,6 +1,5 @@
 #pragma once
 #include <vector>
-#include "Node.h"
 
 class Heap
 {
@@ -8,19 +7,18 @@ private:
 	std::vector<int> vector_representation;
 	// current size of a heap
 	int size;
-	int find_a_parent(int index);
-	int find_left_child(int index);
-	int find_right_child(int index);
+	inline int find_a_parent_index(int index);
+	inline int find_left_child_index(int index);
+	inline int find_right_child_index(int index);
 
 public:
 	Heap();
-	std::vector<int> get_vector_representation() const;
 	void insert(int value);
 	bool is_empty();
 	void remove();
 	void pop();
 	int top();
 	void heapify_down(int index);
-
+	void print();
 };
 
