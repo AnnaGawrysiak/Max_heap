@@ -36,5 +36,8 @@ int main()
 
     max_heap.print_heap();
 
+    Heap max_heap2;
+    std::cout << max_heap2.top() << std::endl;
+
     return 0;
 }

@@ -24,7 +24,7 @@ public:
 	void insert(int value);
 	bool is_empty();
 	void pop();
-	int top();
+	std::shared_ptr<Node> top();
 	void print_heap();
 };
 

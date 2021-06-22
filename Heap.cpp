@@ -7,6 +7,7 @@
 #include <queue>
 #include <map>
 #include <tuple>
+#include <limits>
 
 	std::shared_ptr<Node> Heap::create_new_node(int value)
 	{
@@ -126,20 +127,13 @@
 		return false;
 	}
 	
-	int Heap::top()
+
+	std::shared_ptr<Node> Heap::top()
 	{
-		try
-		{
-			if (size == 0)
-				throw std::out_of_range(" Index is out of range.");
-	
-			return root->data;
-	
-		}
-		catch(const std::out_of_range& oor)
-		{
-			std::cout << std::endl << "Exception identification: " << oor.what();
-		}
+		if (size == 0)
+			return nullptr;
+		else
+			return root;
 	}
 	
 	//// Function to remove an element with the highest priority (present at the root)
