@@ -2,7 +2,6 @@
 #include <utility>
 #include <memory>
 #include <iostream>
-#include <stdexcept>
 #include <cmath>
 #include <queue>
 #include <map>
@@ -195,7 +194,7 @@
 		}
 	}
 	
-	void Heap::heapify_down(std::vector<std::shared_ptr<Node>> path)
+	void Heap::heapify_down(std::vector<std::shared_ptr<Node>>& path)
 	{
 		for (int i = 0; i < path.size() -1; i++)
 		{

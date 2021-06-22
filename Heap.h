@@ -15,7 +15,7 @@ private:
 	int find_last_node_level();
 	std::vector<int> to_binary(int number);
 	void heapify_up(std::shared_ptr<Node> source);
-	void heapify_down(std::vector<std::shared_ptr<Node>> path);
+	void heapify_down(std::vector<std::shared_ptr<Node>>& path);
 	// current size of a heap
 	int size;
 
